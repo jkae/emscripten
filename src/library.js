@@ -3609,7 +3609,6 @@ LibraryManager.library = {
   // i64 math
   //============================
 
-  i64Add__asm: true,
   i64Add__sig: 'iiiii',
   i64Add: function(a, b, c, d) {
     /*
@@ -3624,7 +3623,6 @@ LibraryManager.library = {
     {{{ makeStructuralReturn(['l|0', 'h'], true) }}};
   },
 
-  i64Subtract__asm: true,
   i64Subtract__sig: 'iiiii',
   i64Subtract: function(a, b, c, d) {
     a = a|0; b = b|0; c = c|0; d = d|0;
@@ -3635,7 +3633,6 @@ LibraryManager.library = {
     {{{ makeStructuralReturn(['l|0', 'h'], true) }}};
   },
 
-  bitshift64Shl__asm: true,
   bitshift64Shl__sig: 'iiii',
   bitshift64Shl: function(low, high, bits) {
     low = low|0; high = high|0; bits = bits|0;
@@ -3648,7 +3645,6 @@ LibraryManager.library = {
     {{{ makeSetTempRet0('low << (bits - 32)') }}};
     return 0;
   },
-  bitshift64Ashr__asm: true,
   bitshift64Ashr__sig: 'iiii',
   bitshift64Ashr: function(low, high, bits) {
     low = low|0; high = high|0; bits = bits|0;
@@ -3661,7 +3657,6 @@ LibraryManager.library = {
     {{{ makeSetTempRet0('(high|0) < 0 ? -1 : 0') }}};
     return (high >> (bits - 32))|0;
   },
-  bitshift64Lshr__asm: true,
   bitshift64Lshr__sig: 'iiii',
   bitshift64Lshr: function(low, high, bits) {
     low = low|0; high = high|0; bits = bits|0;

@@ -965,7 +965,6 @@ var LibraryPThread = {
   _pthread_is_main_browser_thread: 0,
 
   $registerPthreadPtr__deps: ['_pthread_ptr', '_pthread_is_main_runtime_thread', '_pthread_is_main_browser_thread'],
-  $registerPthreadPtr__asm: true,
   $registerPthreadPtr__sig: 'viii',
   $registerPthreadPtr: function(pthreadPtr, isMainBrowserThread, isMainRuntimeThread) {
     pthreadPtr = pthreadPtr|0;
@@ -978,20 +977,17 @@ var LibraryPThread = {
 
   // Public pthread_self() function which returns a unique ID for the thread.
   pthread_self__deps: ['_pthread_ptr'],
-  pthread_self__asm: true,
   pthread_self__sig: 'i',
   pthread_self: function() {
     return __pthread_ptr|0;
   },
 
-  emscripten_is_main_runtime_thread__asm: true,
   emscripten_is_main_runtime_thread__sig: 'i',
   emscripten_is_main_runtime_thread__deps: ['_pthread_is_main_runtime_thread'],
   emscripten_is_main_runtime_thread: function() {
     return __pthread_is_main_runtime_thread|0; // Semantically the same as testing "!ENVIRONMENT_IS_PTHREAD" outside the asm.js scope
   },
 
-  emscripten_is_main_browser_thread__asm: true,
   emscripten_is_main_browser_thread__sig: 'i',
   emscripten_is_main_browser_thread__deps: ['_pthread_is_main_browser_thread'],
   emscripten_is_main_browser_thread: function() {
@@ -1241,7 +1237,6 @@ var LibraryPThread = {
 
   // The profiler setters are defined twice, here in asm.js so that they can be #ifdeffed out
   // without having to pay the impact of a FFI transition for a no-op in non-profiling builds.
-  emscripten_conditional_set_current_thread_status__asm: true,
   emscripten_conditional_set_current_thread_status__sig: 'vii',
   emscripten_conditional_set_current_thread_status__deps: ['emscripten_conditional_set_current_thread_status_js'],
   emscripten_conditional_set_current_thread_status: function(expectedStatus, newStatus) {
@@ -1252,7 +1247,6 @@ var LibraryPThread = {
 #endif
   },
 
-  emscripten_set_current_thread_status__asm: true,
   emscripten_set_current_thread_status__sig: 'vi',
   emscripten_set_current_thread_status__deps: ['emscripten_set_current_thread_status_js'],
   emscripten_set_current_thread_status: function(newStatus) {
@@ -1262,7 +1256,6 @@ var LibraryPThread = {
 #endif
   },
 
-  emscripten_set_thread_name__asm: true,
   emscripten_set_thread_name__sig: 'vii',
   emscripten_set_thread_name__deps: ['emscripten_set_thread_name_js'],
   emscripten_set_thread_name: function(threadId, name) {
