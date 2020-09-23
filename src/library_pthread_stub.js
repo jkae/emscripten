@@ -180,6 +180,34 @@ var LibraryPThreadStub = {
     return ret;
   },
 
+  //============================
+  // i64 math helpers
+  //============================
+
+  i64Add__sig: 'iiiii',
+  i64Add: function(a, b, c, d) {
+    /*
+      x = a + b*2^32
+      y = c + d*2^32
+      result = l + h*2^32
+    */
+    a = a|0; b = b|0; c = c|0; d = d|0;
+    var l = 0, h = 0;
+    l = (a + c)>>>0;
+    h = (b + d + (((l>>>0) < (a>>>0))|0))>>>0; // Add carry from low word to high word on overflow.
+    {{{ makeStructuralReturn(['l|0', 'h'], true) }}};
+  },
+
+  i64Subtract__sig: 'iiiii',
+  i64Subtract: function(a, b, c, d) {
+    a = a|0; b = b|0; c = c|0; d = d|0;
+    var l = 0, h = 0;
+    l = (a - c)>>>0;
+    h = (b - d)>>>0;
+    h = (b - d - (((c>>>0) > (a>>>0))|0))>>>0; // Borrow one from high word to low word on underflow.
+    {{{ makeStructuralReturn(['l|0', 'h'], true) }}};
+  },
+
   // gnu atomics
 
   __atomic_is_lock_free: function(size, ptr) {
