@@ -15,16 +15,6 @@ var STRUCT_LIST = set('struct', 'list');
 
 var addedLibraryItems = {};
 
-var allExternPrimitives = ['Math_floor', 'Math_abs', 'Math_sqrt', 'Math_pow',
-  'Math_cos', 'Math_sin', 'Math_tan', 'Math_acos', 'Math_asin', 'Math_atan',
-  'Math_atan2', 'Math_exp', 'Math_log', 'Math_ceil', 'Math_imul', 'Math_min',
-  'Math_max', 'Math_clz32', 'Math_fround',
-  'Int8Array', 'Uint8Array', 'Int16Array', 'Uint16Array', 'Int32Array',
-  'Uint32Array', 'Float32Array', 'Float64Array'];
-
-// Specifies the set of referenced built-in primitives such as Math.max etc.
-var usedExternPrimitives = {};
-
 var SETJMP_LABEL = -1;
 
 var INDENTATION = ' ';
@@ -152,10 +142,7 @@ function JSify(data, functionsOnly) {
 
       var noExport = false;
 
-      if (allExternPrimitives.indexOf(ident) != -1) {
-        usedExternPrimitives[ident] = 1;
-        return;
-      } else if (!LibraryManager.library.hasOwnProperty(ident) && !LibraryManager.library.hasOwnProperty(ident + '__inline')) {
+      if (!LibraryManager.library.hasOwnProperty(ident) && !LibraryManager.library.hasOwnProperty(ident + '__inline')) {
         if (!(finalName in IMPLEMENTED_FUNCTIONS) && !LINKABLE) {
           var msg = 'undefined symbol: ' + ident;
           if (dependent) msg += ' (referenced by ' + dependent + ')';
@@ -233,7 +220,7 @@ function JSify(data, functionsOnly) {
           }
           // In asm, we need to know about library functions. If there is a target, though, then no
           // need to consider this a library function - we will call directly to it anyhow
-          if (!redirectedIdent && (typeof target == 'function' || /Math_\w+/.exec(snippet))) {
+          if (!redirectedIdent && (typeof target == 'function')) {
             Functions.libraryFunctions[finalName] = 1;
           }
         }
@@ -417,12 +404,6 @@ function JSify(data, functionsOnly) {
     if (SUPPORT_BASE64_EMBEDDING && !MINIMAL_RUNTIME) {
       print(preprocess(read('base64Utils.js')));
     }
-
-    var usedExternPrimitiveNames = Object.keys(usedExternPrimitives);
-    if (usedExternPrimitiveNames.length > 0) {
-      print('// ASM_LIBRARY EXTERN PRIMITIVES: ' + usedExternPrimitiveNames.join(',') + '\n');
-    }
-
 
     if (abortExecution) throw Error('Aborting compilation due to previous errors');
 
